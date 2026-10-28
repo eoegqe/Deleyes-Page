@@ -1,11 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deleye`s website</title>
-<marquee scrollamount="15">
-BEST WEBSITE ON THE INTERNET!!! NO REFUNDS!!!
-</marquee>
-<div class="box">
-    <p><b>TRACK:</b> music.ogg</p>
+<audio id="music" src="music.ogg" autoplay loop></audio>
+
+<script>
+const music = document.getElementById("music");
+const statusText = document.getElementById("status");
+const visualizer = document.getElementById("visualizer");
+
+music.volume = 0.7;
+
+music.play()
+    .then(() => {
+        statusText.textContent = "JAZ IS BLASTING!!!";
+        visualizer.classList.add("playing");
+    })
+    .catch(() => {
+        statusText.textContent =
+            "CLICK ANYWHERE TO START THE MUSIC!!!";
+
+        document.addEventListener("click", function startMusic() {
+            music.play().then(() => {
+                statusText.textContent = "MUSIC IS BLASTING!!!";
+                visualizer.classList.add("playing");
+            }).catch(console.error);
+        }, { once: true });
+    });
+
+music.addEventListener("error", () => {
+    statusText.textContent = "WHERE IS music.ogg?!";
+});
+
+music.addEventListener("pause", () => {
+    visualizer.classList.remove("playing");
+});
+
+music.addEventListener("play", () => {
+    visualizer.classList.add("playing");
+});
+</script>
