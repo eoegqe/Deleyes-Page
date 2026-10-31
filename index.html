@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,11 +110,16 @@
         color: lime;
         padding: 15px;
     }
+
+    footer p:last-child {
+        cursor: pointer;
+        display: inline-block;
+    }
 </style>
 </head>
 
 <body>
-    
+
 <marquee scrollamount="15">
 WELCOME TO THE DELEYE PAGE
 BEST WEBSITE ON THE INTERNET!!! NO REFUNDS!!!
@@ -167,44 +171,98 @@ IDK WHAT TO TYPE &nbsp; E
     const music = document.getElementById("music");
     const statusText = document.getElementById("status");
     const visualizer = document.getElementById("visualizer");
+    const tcLabel = document.querySelector("footer p:last-child");
 
-    // Set audio volume to 100%.
+    const tcMusic = new Audio("TC.ogg");
+    tcMusic.volume = 1.0;
+    tcMusic.loop = true;
+
+    let hoveringTc = false;
+
     music.volume = 1.0;
 
+    // Start normal music.
     async function startMusic() {
+        if (hoveringTc) return;
+
         try {
             music.volume = 1.0;
             await music.play();
 
+            if (hoveringTc) {
+                music.pause();
+                return;
+            }
+
             statusText.textContent = "GO TO https://discord.gg/rymKtuM6NM TO GET A SECRET ROLE!1!!1!!11";
             visualizer.classList.add("playing");
         } catch (error) {
-            statusText.textContent =
-                "CLICK ANYWHERE TO START THE MUSIC!!!";
-
-            visualizer.classList.remove("playing");
+            if (!hoveringTc) {
+                statusText.textContent = "CLICK ANYWHERE TO START THE MUSIC!!!";
+                visualizer.classList.remove("playing");
+            }
         }
     }
 
-    // Attempt to start music immediately.
+    // Attempt normal autoplay.
     startMusic();
 
-    // Fallback for browsers that block autoplay.
-    document.addEventListener("click", startMusic, { once: true });
+    // Fallback if autoplay is blocked.
+    document.addEventListener("click", () => {
+        if (!hoveringTc) startMusic();
+    }, { once: true });
 
-    music.addEventListener("play", () => {
-        visualizer.classList.add("playing");
-        statusText.textContent = "MUSIC IS BLASTING AT FULL VOLUME!!!";
+    // HOVER ON: Stop normal music and play TC music.
+    tcLabel.addEventListener("mouseenter", async () => {
+        hoveringTc = true;
+
+        music.pause();
+        visualizer.classList.remove("playing");
+
+        tcMusic.currentTime = 0;
+        statusText.textContent = "TC MUSIC ACTIVATED!!!";
+
+        try {
+            await tcMusic.play();
+        } catch (error) {
+            statusText.textContent = "WHERE IS TC.ogg?! PUT IT NEXT TO index.html";
+        }
     });
 
+    // HOVER OFF: Stop TC music and resume normal music.
+    tcLabel.addEventListener("mouseleave", () => {
+        hoveringTc = false;
+
+        tcMusic.pause();
+        tcMusic.currentTime = 0;
+
+        statusText.textContent = "NORMAL MUSIC RESTORED!!!";
+
+        startMusic();
+    });
+
+    // Normal music starts.
+    music.addEventListener("play", () => {
+        if (!hoveringTc) {
+            visualizer.classList.add("playing");
+            statusText.textContent = "MUSIC IS BLASTING AT FULL VOLUME!!!";
+        }
+    });
+
+    // Normal music stops.
     music.addEventListener("pause", () => {
         visualizer.classList.remove("playing");
     });
 
+    // Normal music file missing.
     music.addEventListener("error", () => {
-        statusText.textContent =
-            "WHERE IS music.ogg?! PUT IT NEXT TO index.html";
+        statusText.textContent = "WHERE IS music.ogg?! PUT IT NEXT TO index.html";
         visualizer.classList.remove("playing");
+    });
+
+    // TC music file missing.
+    tcMusic.addEventListener("error", () => {
+        statusText.textContent = "WHERE IS TC.ogg?! PUT IT NEXT TO index.html";
     });
 </script>
 
