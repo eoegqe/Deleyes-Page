@@ -5,9 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>THE SUPER DUPER MEGA ULTIMEATE COOL BEST DELEYE'S PAGE</title>
+<title>THE SUPER DUPER MEGA ULTIMEATE COOL BEST WITH COOL SUPER DUPER MEGA ULTIMEATE DELEYE'S PAGE</title>
 
 <style>
+    /* WINGDINGS FONT */
+    @font-face {
+        font-family: "MyWingdings";
+        src: local("Wingdings"),
+             url("Wingdings.ttf") format("truetype");
+        font-display: swap;
+    }
+
     body {
         background: lime;
         color: red;
@@ -72,8 +80,12 @@
     }
 
     @keyframes dance {
-        from { height: 10px; }
-        to { height: 95px; }
+        from {
+            height: 10px;
+        }
+        to {
+            height: 95px;
+        }
     }
 
     .bar:nth-child(2n) {
@@ -108,10 +120,11 @@
 
     /* WINGDINGS ACTIVATION MESSAGE */
     #status.wingdings {
-        font-family: Wingdings, sans-serif;
+        font-family: "MyWingdings", Wingdings, sans-serif;
         font-size: 30px;
         color: red;
         background: yellow;
+        font-weight: normal;
     }
 
     .blink {
@@ -119,7 +132,9 @@
     }
 
     @keyframes blink {
-        to { visibility: hidden; }
+        to {
+            visibility: hidden;
+        }
     }
 
     footer {
@@ -213,13 +228,17 @@ IDK WHAT TO TYPE &nbsp; E
             }
 
             statusText.classList.remove("wingdings");
-            statusText.textContent = "GO TO https://discord.gg/rymKtuM6NM TO GET A SECRET ROLE!1!!1!!11";
+            statusText.textContent =
+                "GO TO https://discord.gg/rymKtuM6NM TO GET A SECRET ROLE!1!!1!!11";
+
             visualizer.classList.add("playing");
 
         } catch (error) {
             if (!hoveringTc) {
                 statusText.classList.remove("wingdings");
-                statusText.textContent = "CLICK ANYWHERE TO START THE MUSIC!!!";
+                statusText.textContent =
+                    "CLICK ANYWHERE TO START THE MUSIC!!!";
+
                 visualizer.classList.remove("playing");
             }
         }
@@ -248,12 +267,17 @@ IDK WHAT TO TYPE &nbsp; E
         try {
             await tcMusic.play();
 
-            statusText.textContent = "THEEGGET LOCKED ME INSIDE HIS BASEMENT";
-            statusText.classList.add("wingdings");
+            if (hoveringTc) {
+                statusText.textContent =
+                    "THEEGGET LOCKED ME INSIDE HIS BASEMENT";
+
+                statusText.classList.add("wingdings");
+            }
 
         } catch (error) {
             statusText.classList.remove("wingdings");
-            statusText.textContent = "WHERE IS TC.ogg?! PUT IT NEXT TO index.html";
+            statusText.textContent =
+                "WHERE IS TC.ogg?! PUT IT NEXT TO index.html";
         }
     });
 
@@ -275,7 +299,8 @@ IDK WHAT TO TYPE &nbsp; E
         if (!hoveringTc) {
             visualizer.classList.add("playing");
             statusText.classList.remove("wingdings");
-            statusText.textContent = "MUSIC IS BLASTING AT FULL VOLUME!!!";
+            statusText.textContent =
+                "MUSIC IS BLASTING AT FULL VOLUME!!!";
         }
     });
 
@@ -287,14 +312,17 @@ IDK WHAT TO TYPE &nbsp; E
     // Normal music file missing.
     music.addEventListener("error", () => {
         statusText.classList.remove("wingdings");
-        statusText.textContent = "WHERE IS music.ogg?! PUT IT NEXT TO index.html";
+        statusText.textContent =
+            "WHERE IS music.ogg?! PUT IT NEXT TO index.html";
+
         visualizer.classList.remove("playing");
     });
 
     // TC music file missing.
     tcMusic.addEventListener("error", () => {
         statusText.classList.remove("wingdings");
-        statusText.textContent = "WHERE IS TC.ogg?! PUT IT NEXT TO index.html";
+        statusText.textContent =
+            "WHERE IS TC.ogg?! PUT IT NEXT TO index.html";
     });
 </script>
 
